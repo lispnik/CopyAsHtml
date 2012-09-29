@@ -110,7 +110,7 @@ public class CopyAsHtmlAction extends AnAction {
             _tabText = Utils.repeat(' ', configuration.getTabSize());
         }
 
-        final String html = copyAsHtml(project, defaultCodeStyle, colorsScheme, document, psiFile, textRange);
+        final String html = copyAsHtml(project, defaultCodeStyle, colorsScheme, editor, psiFile, textRange);
         LOGGER.info(html);
         Clipboard systemClipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         int mimeTypes = configuration.getMimeTypes();
@@ -213,7 +213,7 @@ public class CopyAsHtmlAction extends AnAction {
     }
 
     private String copyAsHtml(Project project, CodeStyle defaultCodeStyle, EditorColorsScheme colorsScheme,
-                              Document document, PsiFile psiFile, TextRange textRange)
+                              Editor editor, PsiFile psiFile, TextRange textRange)
     {
         Language language = psiFile.getLanguage();
         VirtualFile virtualFile = psiFile.getVirtualFile();
@@ -231,7 +231,7 @@ public class CopyAsHtmlAction extends AnAction {
 
         int commonWhiteSpacePrefixCount = _unindent ? getCommonWhiteSpacePrefixCount(text, startOffset, endOffset) : 0;
 
-        List rangeHighlighters = getRangeHighlighters(project, document);
+        List rangeHighlighters = getRangeHighlighters(project, editor);
 
         Configuration configuration = Configuration.getInstance();
         buffer.append("<pre style=\"line-height: 100%;font-family:monospace;background-color:");
@@ -327,8 +327,8 @@ public class CopyAsHtmlAction extends AnAction {
         return line.substring(0, charIndex);
     }
 
-    private List getRangeHighlighters(Project project, Document document) {
-        MarkupModel documentMarkupModel = document.getMarkupModel(project);
+    private List getRangeHighlighters(Project project, Editor editor) {
+        MarkupModel documentMarkupModel = editor.getMarkupModel();
         RangeHighlighter[] highlighters = documentMarkupModel.getAllHighlighters();
         List rangeHighlighters = new ArrayList(highlighters.length);
         Configuration configuration = Configuration.getInstance();
