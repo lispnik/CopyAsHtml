@@ -1,0 +1,61 @@
+<!DOCTYPE idea-plugin PUBLIC "Plugin/DTD" "http://plugins.intellij.net/plugin.dtd">
+<idea-plugin>
+    <name>Copy as HTML</name>
+    <description><![CDATA[<html><body>
+        Copies a snippet of code as html
+        <ul>
+            <li>Adds menu items "Copy as HTML" to main menu and editor popup.
+                Will copy the current selection or the complete editor buffer.
+                Currently only works if focus is in editor (for example won't work in project tree).</li>
+            <li>Preserves more formatting than the built-in HTML export.</li>
+            <li>HTML is only a snippet (without html and body tags) meant to be inserted into a complete
+                HTML document.</li>
+            <li>Currently HTML format is fixed and uses CSS a lot.</li>
+            <li>Options: unindent, add border, padding, line numbers, tabs to spaces conversion, include editor's warning and error highlighting
+                (see IDE Settings -> Copy as HTML).</li>
+            <li>Reuses the editor "Show Line Numbers" setting (see Idea's "View" menu).</li>
+        </ul>
+        </body></html>
+        ]]>
+    </description>
+    <change-notes><![CDATA[<html><body>
+        <ul>
+            <li>0.7.1 Small bug fix: Styling ended one character to late</li>
+            <li>0.7   Works in IDEA 9, also tested with IDEA X (EAP build 98.117)</li>
+            <li>0.6   New options for line numbers, font size, padding and unindent, tabs to spaces conversion, changed default shortcut to Ctrl-Shift-Q</li>
+            <li>0.5   Works on IDEA 8.0 (no functional changes)</li>
+            <li>0.4   Works on IDEA 6.0 (no functional changes)</li>
+            <li>0.3   New option: Start line nos at either 1 or editor row number</li>
+            <li>0.2.1 Minor bugfixes (works for plain text files)</li>
+            <li>0.2   Now copies both in text/plain and text/html format suitable for formatted
+                      pasting into OpenOffice, Word, etc. (Can be configured in settings.)
+                      Credits to Peter B&uuml;ttner for his JDK bug workaround (see www.peterbuettner.de)</li>
+            <li>0.1   Initial Version</li>
+        </ul>
+        </body></html>
+        ]]>
+    </change-notes>
+    <version>0.7.1</version>
+    <vendor email="stephen.friedrich@eekboom.com">Stephen Friedrich</vendor>
+    <idea-version since-build="93.13"/>
+
+    <application-components>
+        <component>
+            <implementation-class>com.eekboom.copy_as_html.CopyAsHtml</implementation-class>
+        </component>
+        <component>
+            <implementation-class>com.eekboom.copy_as_html.Configuration</implementation-class>
+        </component>
+    </application-components>
+
+    <actions>
+        <action id="CopyAsHtml" class="com.eekboom.copy_as_html.CopyAsHtmlAction"
+            text="Copy _as HTML" description="Copy the current selection as HTML to Clipboard">
+            <add-to-group group-id="CutCopyPasteGroup" anchor="after" relative-to-action="$Copy"/>
+            <keyboard-shortcut first-keystroke="control shift Q" keymap="$default"/>
+        </action>
+    </actions>
+
+    <!-- Marks this plugin as RubyMine-compatible -->
+    <depends optional="true">com.intellij.modules.lang</depends> 
+</idea-plugin>

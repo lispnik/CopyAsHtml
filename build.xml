@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="CopyAsHtml" default="dist">
+    <path id="libs">
+        <fileset dir="c:/ideax/lib/" includes="*.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="build/classes"/>
+
+        <copy todir="build/classes">
+            <fileset dir="src" excludes="**/*.java"/>
+        </copy>
+
+        <javac destdir="build/classes" debug="on" fork="true" srcdir="src">
+            <classpath refid="libs"/>
+        </javac>
+    </target>
+
+    <target name="dist" depends="clean,compile">
+        <mkdir dir="build/CopyAsHtml/lib"/>
+        <zip destfile="build/CopyAsHtml/lib/CopyAsHtml.jar" basedir="build/classes"/>
+        <zip destfile="build/CopyAsHtml/src.zip" basedir="." excludes="build/** CopyAsHtml.iws"/>
+        <zip destfile="build/CopyAsHtml.zip" basedir="build" includes="CopyAsHtml/**"/>
+    </target>
+</project>
